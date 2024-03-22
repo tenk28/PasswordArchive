@@ -6,7 +6,8 @@ add_subdirectory(libs)
 
 file(GLOB srcs "src/**")
 
-add_executable(${PROJECT_NAME} ${srcs})
+add_executable(${PROJECT_NAME} ${srcs}
+        src/database_manager/include/insert_table.h)
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE

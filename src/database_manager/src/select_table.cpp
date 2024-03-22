@@ -1,12 +1,12 @@
-#include "database_manager.h"
+#include "../include/select_table.h"
 
 #include <iostream>
 
-DatabaseManager::~DatabaseManager() {
+SelectTable::~SelectTable() {
     sqlite3_close(db);
 }
 
-bool DatabaseManager::init() {
+bool SelectTable::init() {
     int rc = sqlite3_open("test.db", &db);
 
     if (rc) {
@@ -17,17 +17,12 @@ bool DatabaseManager::init() {
     return true;
 }
 
-bool DatabaseManager::createTable() {
-    char *sql = "CREATE TABLE COMPANY("  \
-      "ID INT PRIMARY KEY     NOT NULL," \
-      "NAME           TEXT    NOT NULL," \
-      "AGE            INT     NOT NULL," \
-      "ADDRESS        CHAR(50)," \
-      "SALARY         REAL );";
+bool SelectTable::selectTable() {
+    char *sql = "SELECT * from COMPANY";
 
     //Execute SQL statement
     char *zErrMsg = nullptr;
-    int rc = sqlite3_exec(db, sql, DatabaseManager::callback, NULL, &zErrMsg);
+    int rc = sqlite3_exec(db, sql, SelectTable::callback, nullptr, &zErrMsg);
 
     if( rc != SQLITE_OK ) {
         std::cout << "SQL error: " << zErrMsg << std::endl;
@@ -37,7 +32,7 @@ bool DatabaseManager::createTable() {
     return true;
 }
 
-int DatabaseManager::callback(void *data, int argc, char **argv, char **azColName) {
+int SelectTable::callback(void *data, int argc, char **argv, char **azColName) {
     int i;
     std::cout << (const char*)data;
 

@@ -1,14 +1,14 @@
 #pragma once
 
-#include <sqlite/sqlite3.h>
+#include "sqlite/sqlite3.h"
 
-class DatabaseManager {
+class SelectTable {
 public:
-    ~DatabaseManager();
+    ~SelectTable();
 
     bool init();
 
-    bool createTable();
+    bool selectTable();
     // methods
 
 private:
