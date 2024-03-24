@@ -2,13 +2,16 @@
 
 #include "sqlite/sqlite3.h"
 
-class SelectTable {
+class DatabaseManager {
 public:
-    ~SelectTable();
+    ~DatabaseManager();
 
     bool init();
 
+    bool createTable();
+    bool insertTable();
     bool selectTable();
+    bool updateTable();
     // methods
 
 private:
