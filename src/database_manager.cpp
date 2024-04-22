@@ -17,6 +17,20 @@ bool DatabaseManager::init() {
     return true;
 }
 
+bool DatabaseManager::exec(const std::string& sql_query) {
+
+    char* z_err_msg = nullptr;
+    int rc          = sqlite3_exec(db, sql_query.c_str(), &DatabaseManager::callback, nullptr, &z_err_msg);
+
+    if (rc != SQLITE_OK) {
+        std::cout << "SQL error: " << z_err_msg << std::endl;
+        sqlite3_free(z_err_msg);
+        return false;
+    }
+    return true;
+
+}
+
 bool DatabaseManager::createTable() {
     const char* sql = "CREATE TABLE COMPANY("
                       "ID INT PRIMARY KEY     NOT NULL,"
@@ -25,16 +39,7 @@ bool DatabaseManager::createTable() {
                       "ADDRESS        CHAR(50),"
                       "SALARY         REAL );";
 
-    //Execute SQL statement
-    char* z_err_msg = nullptr;
-    int rc          = sqlite3_exec(db, sql, DatabaseManager::callback, nullptr, &z_err_msg);
-
-    if (rc != SQLITE_OK) {
-        std::cout << "SQL error: " << z_err_msg << std::endl;
-        sqlite3_free(z_err_msg);
-        return false;
-    }
-    return true;
+    return exec(sql);
 }
 
 bool DatabaseManager::insertTable() {
@@ -46,48 +51,19 @@ bool DatabaseManager::insertTable() {
                       "VALUES (3, 'Teddy', 23, 'Norway', 20000.00 );"
                       "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)"
                       "VALUES (4, 'Mark', 25, 'Rich-Mond ', 65000.00 );";
-
-    //Execute SQL statement
-    char* zErrMsg = nullptr;
-    int rc        = sqlite3_exec(db, sql, DatabaseManager::callback, nullptr, &zErrMsg);
-
-    if (rc != SQLITE_OK) {
-        std::cout << "SQL error: " << zErrMsg << std::endl;
-        sqlite3_free(zErrMsg);
-        return false;
-    }
-    return true;
+    return exec(sql);
 }
 
 bool DatabaseManager::selectTable() {
     const char* sql = "SELECT * from COMPANY";
 
-    //Execute SQL statement
-    char* zErrMsg = nullptr;
-    int rc        = sqlite3_exec(db, sql, DatabaseManager::callback, nullptr, &zErrMsg);
-
-    if (rc != SQLITE_OK) {
-        std::cout << "SQL error: " << zErrMsg << std::endl;
-        sqlite3_free(zErrMsg);
-        return false;
-    }
-    return true;
+    return exec(sql);
 }
 
 bool DatabaseManager::updateTable() {
     const char* sql = "UPDATE COMPANY set SALARY = 25000.00 where ID=1; "
                       "SELECT * from COMPANY";
-
-    //Execute SQL statement
-    char* zErrMsg = nullptr;
-    int rc        = sqlite3_exec(db, sql, DatabaseManager::callback, nullptr, &zErrMsg);
-
-    if (rc != SQLITE_OK) {
-        std::cout << "SQL error: " << zErrMsg << std::endl;
-        sqlite3_free(zErrMsg);
-        return false;
-    }
-    return true;
+    return exec(sql);
 }
 
 int DatabaseManager::callback(void* data, int argc, char** argv, char** azColName) {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <sqlite/sqlite3.h>
+#include <iostream>
 
 class DatabaseManager {
   public:
@@ -14,8 +15,7 @@ class DatabaseManager {
     bool updateTable();
 
   private:
+    bool exec(const std::string& sql_query);
     static int callback(void* data, int argc, char** argv, char** az_col_name);
-
-  private:
     sqlite3* db;
 };
