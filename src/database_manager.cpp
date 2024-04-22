@@ -28,7 +28,6 @@ bool DatabaseManager::exec(const std::string& sql_query) {
         return false;
     }
     return true;
-
 }
 
 bool DatabaseManager::createTable() {
@@ -61,16 +60,16 @@ bool DatabaseManager::selectTable() {
 }
 
 bool DatabaseManager::updateTable() {
-    const char* sql = "UPDATE COMPANY set SALARY = 25000.00 where ID=1; "
-                      "SELECT * from COMPANY";
+    const char* sql = "UPDATE COMPANY set SALARY = 25000.00 where ID=1;";
     return exec(sql);
 }
 
 int DatabaseManager::callback(void* data, int argc, char** argv, char** azColName) {
-    int i;
-    std::cout << (const char*)data;
+    if (data) {
+        std::cout << "Data: " << (const char*)data;
+    }
 
-    for (i = 0; i < argc; i++) {
+    for (int i = 0; i < argc; i++) {
         std::string argString = argv[i] ? argv[i] : "NULL";
         std::cout << azColName[i] << " = " << argString << std::endl;
     }
