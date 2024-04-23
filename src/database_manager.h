@@ -1,7 +1,8 @@
 #pragma once
 
 #include <sqlite/sqlite3.h>
-#include <iostream>
+
+#include <string>
 
 class DatabaseManager {
   public:
