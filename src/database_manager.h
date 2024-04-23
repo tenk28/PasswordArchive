@@ -2,6 +2,8 @@
 
 #include <sqlite/sqlite3.h>
 
+#include <string>
+
 class DatabaseManager {
   public:
     ~DatabaseManager();
@@ -14,8 +16,7 @@ class DatabaseManager {
     bool updateTable();
 
   private:
+    bool exec(const std::string& sql_query);
     static int callback(void* data, int argc, char** argv, char** az_col_name);
-
-  private:
     sqlite3* db;
 };
